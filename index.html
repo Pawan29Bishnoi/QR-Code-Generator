@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QR Code Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .qr-output {
+            margin-top: 20px;
+            text-align: center;
+        }
+        img {
+            margin-top: 10px;
+            max-width: 250px;
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code Generator</h1>
+    <form method="POST">
+        <input type="text" name="data" placeholder="Enter text or URL" required>
+        <br>
+        <button type="submit">Generate QR Code</button>
+    </form>
+
+    {% if error %}
+    <div style="color: red; margin-top: 20px;">{{ error }}</div>
+    {% endif %}
+
+    {% if qr_created and qr_filename %}
+    <div class="qr-output">
+        <h3>Your QR Code:</h3>
+        <img src="{{ url_for('static', filename=qr_filename) }}?v={{ version }}" alt="QR Code">
+        <br><br>
+        <a href="{{ url_for('download_qr', filename=qr_filename) }}"><button>Download</button></a>
+    </div>
+    {% endif %}
+</body>
+</html>
